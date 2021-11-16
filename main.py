@@ -4,9 +4,9 @@ from itertools import chain, combinations, combinations_with_replacement
 def union(x, y):
     """
     German: Vereinigungsmenge
-    :type x: set
-    :type y: set
-    :rtype: set
+    :type x: set[frozenset | int]
+    :type y: set[frozenset | int]
+    :rtype: set[frozenset | int]
     """
     x_copy = x.copy()
     x_copy.update(y)
@@ -16,9 +16,9 @@ def union(x, y):
 def complement(x, y):
     """
     German: Komplement - Subtraktion von Mengen
-    :type x: set
-    :type y: set
-    :rtype: set
+    :type x: set[frozenset | int]
+    :type y: set[frozenset | int]
+    :rtype: set[frozenset | int]
     """
     return x.difference(y)
 
@@ -26,9 +26,9 @@ def complement(x, y):
 def intersection(x, y):
     """
     German: Schnittmenge
-    :type x: set
-    :type y: set
-    :rtype: set
+    :type x: set[frozenset | int]
+    :type y: set[frozenset | int]
+    :rtype: set[frozenset | int]
     """
     return x.intersection(y)
 
@@ -36,8 +36,8 @@ def intersection(x, y):
 def power_set(x):
     """
     German: Potenzmenge
-    :type x: set
-    :rtype: set
+    :type x: set[frozenset | int]
+    :rtype: set[frozenset | int]
     """
     if size(x) >= (overflow/2):
         return set()
@@ -47,9 +47,9 @@ def power_set(x):
 def tools(t, x, y):
     """
     :type t: int
-    :type x: set
-    :type y: set
-    :rtype: set
+    :type x: set[frozenset | int]
+    :type y: set[frozenset | int]
+    :rtype: set[frozenset | int]
     """
     switcher = {
         0: union(x, y),
@@ -82,7 +82,7 @@ def s_tools(t, x, y):
 
 def size(x):
     """
-    :type x: set
+    :type x: set[frozenset | int] | frozenset
     :rtype: int
     """
     y = 0
@@ -95,7 +95,7 @@ def size(x):
 
 def format_set(x):
     """
-    :type x: set
+    :type x: set[frozenset | int]
     :rtype: str
     """
 
@@ -144,7 +144,7 @@ def format_way(x, const_sets, results):
 
 def check_set(check, way, results):
     """
-    :type check: set
+    :type check: set[frozenset | int]
     :type way: list[int, set, set]
     :type results: list[tuple[set, list[int, set | None, set | None] | None]]
     """
@@ -156,7 +156,7 @@ def check_set(check, way, results):
 def search(const_sets, result):
     """
     :type const_sets: dict[str, set[frozenset | int]]
-    :type result: set
+    :type result: set[frozenset | int]
     :rtype: bool
     """
 
