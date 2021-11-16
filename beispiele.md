@@ -2,13 +2,13 @@
 
 ## Inhalt
 
-- [Aufgabe (demo)](#aufgabe-demoexamplesaufgabe0py)
-- [Aufgabe 1](#aufgabe-1examplesaufgabe1py)
-- [Aufgabe 2](#aufgabe-2examplesaufgabe2py)
-- [Aufgabe 3](#aufgabe-3examplesaufgabe3py)
-- [Aufgabe 4](#aufgabe-4examplesaufgabe4py)
-- [Aufgabe 5](#aufgabe-5examplesaufgabe5py)
-- [Aufgabe 6](#aufgabe-6examplesaufgabe6py)
+- [Aufgabe (demo)](#aufgabe-demo)
+- [Aufgabe 1](#aufgabe-1)
+- [Aufgabe 2](#aufgabe-2)
+- [Aufgabe 3](#aufgabe-3)
+- [Aufgabe 4](#aufgabe-4)
+- [Aufgabe 5](#aufgabe-5)
+- [Aufgabe 6](#aufgabe-6)
 
 ---
 
