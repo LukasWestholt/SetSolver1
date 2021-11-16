@@ -1,2 +1,4 @@
 # TODO max größe vom Ausdruck
 # TODO for search for frozenset({})
+
+# TODO create own class as subtype of set and use it for union, complement etc.
