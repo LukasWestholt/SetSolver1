@@ -154,42 +154,6 @@ def check_set(check, way, const_sets, results):
         results.append((check, way))
 
 
-def search(const_sets, result):
-    """
-    :type const_sets: dict[str, set[frozenset | int]]
-    :type result: set[frozenset | int]
-    :rtype: list[set] | None
-    """
-
-    const_sets = unique_set(const_sets)
-    results: list[tuple[set, list[int, set | None, set | None] | None]] = [(x, None) for x in const_sets.values()]
-    for len_obj in range(range_int):
-        print(str(round((len_obj/(range_int-1))*100)) + "% / " + str(len(results)))
-        for x, _ in results.copy():
-            for y in range(6):
-                for z in const_sets.values():
-                    new = tools(y, x, z)
-                    check_set(new, [y, x, z], const_sets, results)
-        output = get_valid_results(const_sets, result, results)
-        if len(output) > 0:
-            return output
-
-    for len_obj in range(range_int):
-        print("all: " + str(round((len_obj/(range_int-1))*100)) + "% / " + str(len(results)))
-        temp_results_list_for_power_set = results.copy()
-        for (x, _), (y, _) in combinations_with_replacement(results, 2):
-            for c in range(4):
-                new = tools(c, x, y)
-                check_set(new, [c, x, y], const_sets, results)
-        for x, _ in temp_results_list_for_power_set:
-            new = power_set(x)
-            check_set(new, [4, x, None], const_sets, results)
-        output = get_valid_results(const_sets, result, results)
-        if len(output) > 0:
-            return output
-    return None
-
-
 def unique_set(x):
     """
     :type x: dict[str, set[frozenset | int]]
@@ -224,6 +188,42 @@ def debug_print(x):
     :type x: str
     """
     print(x) if DEBUG else None
+
+
+def search(const_sets, result):
+    """
+    :type const_sets: dict[str, set[frozenset | int]]
+    :type result: set[frozenset | int]
+    :rtype: list[set] | None
+    """
+
+    const_sets = unique_set(const_sets)
+    results: list[tuple[set, list[int, set | None, set | None] | None]] = [(x, None) for x in const_sets.values()]
+    for len_obj in range(range_int):
+        print(str(round((len_obj/(range_int-1))*100)) + "% / " + str(len(results)))
+        for x, _ in results.copy():
+            for y in range(6):
+                for z in const_sets.values():
+                    new = tools(y, x, z)
+                    check_set(new, [y, x, z], const_sets, results)
+        valid_results = get_valid_results(const_sets, result, results)
+        if len(valid_results) > 0:
+            return valid_results
+
+    for len_obj in range(range_int):
+        print("all: " + str(round((len_obj/(range_int-1))*100)) + "% / " + str(len(results)))
+        temp_results_list_for_power_set = results.copy()
+        for (x, _), (y, _) in combinations_with_replacement(results, 2):
+            for c in range(4):
+                new = tools(c, x, y)
+                check_set(new, [c, x, y], const_sets, results)
+        for x, _ in temp_results_list_for_power_set:
+            new = power_set(x)
+            check_set(new, [4, x, None], const_sets, results)
+        valid_results = get_valid_results(const_sets, result, results)
+        if len(valid_results) > 0:
+            return valid_results
+    return None
 
 
 overflow = 30
