@@ -1,0 +1,2 @@
+# TODO max größe vom Ausdruck
+# TODO for search for frozenset({})
