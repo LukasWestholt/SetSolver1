@@ -5,11 +5,11 @@ Use python3.10 or newer. Download it [here](https://www.python.org/downloads/).
 
 First import the module: `from main import search`
 
-Now you can use the method `search(const_sets: dict[str, set[frozenset | int]], result: set[frozenset | int]) -> bool`
+Now you can use the method `search(const_sets: dict[str, set[frozenset | int]], result: set[frozenset | int]) -> list[set] | None`
 
 Where `const_sets` is a dictionary for the predefined constants and `result` is the wanted solution.
 With the method `search` you can find the probably shortest way to this solution by the predefined constants
-and normal set operations.  
+and normal set operations. With this method you will get a list of valid ways (mostly one way) back. 
 
 Little example:
 ```

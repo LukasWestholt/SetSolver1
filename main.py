@@ -138,18 +138,19 @@ def format_way(x, const_sets, results):
             way.append("")
             print(x)
             input("error 2")
-    # print("way: " + str(way))
+    debug_print("way: " + str(way))
     return s_tools(x[0], way[0], way[1])
 
 
-def check_set(check, way, results):
+def check_set(check, way, const_sets, results):
     """
     :type check: set[frozenset | int]
     :type way: list[int, set, set]
+    :type const_sets: dict[str, set[frozenset | int]]
     :type results: list[tuple[set, list[int, set | None, set | None] | None]]
     """
     if size(check) <= overflow and check not in [x[0] for x in results]:
-        # print(str(check) + ":" + str(way))
+        debug_print(format_way(way, const_sets, results) + " --> " + format_set(check))
         results.append((check, way))
 
 
@@ -157,7 +158,7 @@ def search(const_sets, result):
     """
     :type const_sets: dict[str, set[frozenset | int]]
     :type result: set[frozenset | int]
-    :rtype: bool
+    :rtype: list[set] | None
     """
 
     const_sets = unique_set(const_sets)
@@ -168,9 +169,10 @@ def search(const_sets, result):
             for y in range(6):
                 for z in const_sets.values():
                     new = tools(y, x, z)
-                    check_set(new, [y, x, z], results)
-        if result in [x[0] for x in results]:
-            return end(const_sets, result, results)
+                    check_set(new, [y, x, z], const_sets, results)
+        output = get_valid_results(const_sets, result, results)
+        if len(output) > 0:
+            return output
 
     for len_obj in range(range_int):
         print("all: " + str(round((len_obj/(range_int-1))*100)) + "% / " + str(len(results)))
@@ -178,13 +180,14 @@ def search(const_sets, result):
         for (x, _), (y, _) in combinations_with_replacement(results, 2):
             for c in range(4):
                 new = tools(c, x, y)
-                check_set(new, [c, x, y], results)
+                check_set(new, [c, x, y], const_sets, results)
         for x, _ in temp_results_list_for_power_set:
             new = power_set(x)
-            check_set(new, [4, x, None], results)
-        if result in [x[0] for x in results]:
-            return end(const_sets, result, results)
-    return False
+            check_set(new, [4, x, None], const_sets, results)
+        output = get_valid_results(const_sets, result, results)
+        if len(output) > 0:
+            return output
+    return None
 
 
 def unique_set(x):
@@ -201,14 +204,28 @@ def unique_set(x):
     return x
 
 
-def end(const_sets, result, results):
-    print("Calculated result(s):")
+def get_valid_results(const_sets, result, results):
+    """
+    :type const_sets: dict[str, set[frozenset | int]]
+    :type result: set[frozenset | int]
+    :type results: list[tuple[set, list[int, set | None, set | None] | None]]
+    :return: list[set]
+    """
+    valid_results = list()
     for a, b in results:
-        # print(format_way(b, const_sets, results) + " --> " + format_set(a))
         if result == a:
-            print(format_way(b, const_sets, results) + " --> " + format_set(a))
-    return True
+            valid_results.append(a)
+            print("Calculated result:" + format_way(b, const_sets, results) + " --> " + format_set(a))
+    return valid_results
+
+
+def debug_print(x):
+    """
+    :type x: str
+    """
+    print(x) if DEBUG else None
 
 
 overflow = 30
 range_int = 20
+DEBUG = False
