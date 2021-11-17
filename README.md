@@ -3,9 +3,19 @@ This script is solving set problems by brute-force. See [HOWTO](#HOWTO).
 # HOWTO
 Use python3.10 or newer. Download it [here](https://www.python.org/downloads/). 
 
-First import the module: `from main import search`
+```
+"python.exe" -m pip install SetSolver1
+```
 
-Now you can use the method `search(const_sets: dict[str, set[frozenset | int]], result: set[frozenset | int]) -> list[set] | None`
+First import the module:
+```
+import SetSolver1
+```
+
+Now you can use the method:
+```
+SetSolver1.search(const_sets: dict[str, set[frozenset | int]], result: set[frozenset | int]) -> list[set] | None
+```
 
 Where `const_sets` is a dictionary for the predefined constants and `result` is the wanted solution.
 With the method `search` you can find the probably shortest way to this solution by the predefined constants
@@ -13,7 +23,7 @@ and normal set operations. With this method you will get a list of valid ways (m
 
 Little example:
 ```
-from main import search
+import SetSolver1
 
 # Here you set your predefined constants.
 # Please make sure that you do not assign a variable letter twice.
@@ -26,11 +36,11 @@ const_sets: dict[str, set[frozenset | int]] = {
 # Here you set your wanted solution.
 result = {frozenset(), frozenset({3}), frozenset({5}), frozenset({frozenset()})}
 
-search(const_sets, result)
+output = SetSolver1.search(const_sets, result)
 ```
 
 
-See German examples [here](beispiele.md).
+See German examples [here](beispiele.md) with outputs.
 
 # Requirements
 

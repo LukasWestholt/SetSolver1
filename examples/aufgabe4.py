@@ -1,4 +1,4 @@
-from main import search
+from SetSolver1 import search
 from timeit import default_timer as timer
 
 # THIS IS AN EXAMPLE in /examples. See /beispiele.md for more information.

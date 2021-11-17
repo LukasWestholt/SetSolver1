@@ -3,6 +3,10 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/src/setSolver1_lukaswestholt.egg-info" />
+      <excludeFolder url="file://$MODULE_DIR$/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/src/SetSolver1.egg-info" />
+      <excludeFolder url="file://$MODULE_DIR$/test/venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (SetSolver1)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
