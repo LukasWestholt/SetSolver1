@@ -14,7 +14,7 @@ import SetSolver1
 
 Now you can use the method:
 ```
-SetSolver1.search(const_sets: dict[str, set[frozenset | int]], result: set[frozenset | int]) -> list[set] | None
+SetSolver1.search(const_sets: dict[str, set[frozenset | int]], result: set[frozenset | int], not_allowed: list = None) -> list[set] | None
 ```
 
 Where `const_sets` is a dictionary for the predefined constants and `result` is the wanted solution.

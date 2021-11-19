@@ -2,6 +2,7 @@
 
 ## Inhalt
 
+### Mengen
 - [Aufgabe (demo)](#aufgabe-demo)
 - [Aufgabe 1](#aufgabe-1)
 - [Aufgabe 2](#aufgabe-2)
@@ -10,9 +11,13 @@
 - [Aufgabe 5](#aufgabe-5)
 - [Aufgabe 6](#aufgabe-6)
 
+
+### Mengen mit Relationen
+- coming soon
+
 ---
 
-### [Aufgabe (demo)](/examples/aufgabe0.py)
+### [Aufgabe (demo)](/examples/sets/aufgabe0.py)
 
 Gesucht ist ein Ausdruck (Term) mit dieser Bedeutung:
 
@@ -39,7 +44,7 @@ Calculated result(s):
 
 * * *
 
-### [Aufgabe 1](/examples/aufgabe1.py)
+### [Aufgabe 1](/examples/sets/aufgabe1.py)
 Gesucht ist ein Ausdruck (Term) mit dieser Bedeutung:
 
     {{{{3}}}}
@@ -65,7 +70,7 @@ Calculated result(s):
 
 * * *
 
-### [Aufgabe 2](/examples/aufgabe2.py)
+### [Aufgabe 2](/examples/sets/aufgabe2.py)
 Gesucht ist ein Ausdruck (Term) mit dieser Bedeutung:
 
     {{}, {3}, {5}, {{}}}
@@ -91,7 +96,7 @@ Calculated result(s):
 
 * * *
 
-### [Aufgabe 3](/examples/aufgabe3.py)
+### [Aufgabe 3](/examples/sets/aufgabe3.py)
 Gesucht ist ein Ausdruck (Term) mit dieser Bedeutung:
 
     {6, {2}}
@@ -118,7 +123,7 @@ Calculated result(s):
 
 * * *
 
-### [Aufgabe 4](/examples/aufgabe4.py)
+### [Aufgabe 4](/examples/sets/aufgabe4.py)
 Gesucht ist ein Ausdruck (Term) mit dieser Bedeutung:
 
     {{}, {1, 2, {3}}, {1, {3}}, {2, {3}}, {{3}}}
@@ -144,7 +149,7 @@ Calculated result(s):
 
 * * *
 
-### [Aufgabe 5](/examples/aufgabe5.py)
+### [Aufgabe 5](/examples/sets/aufgabe5.py)
 
 Gesucht ist ein Ausdruck (Term) mit dieser Bedeutung:
 
@@ -171,7 +176,7 @@ Calculated result(s):
 
 * * *
 
-### [Aufgabe 6](/examples/aufgabe6.py)
+### [Aufgabe 6](/examples/sets/aufgabe6.py)
 
 Gesucht ist ein Ausdruck (Term) mit dieser Bedeutung:
 
