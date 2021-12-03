@@ -14,7 +14,7 @@ import SetSolver1
 
 Now you can use the method:
 ```
-SetSolver1.search(const_sets: dict[str, set[frozenset | int]], result: set[frozenset | int], not_allowed: list = None) -> list[set] | None
+SetSolver1.search(const_sets: dict[str, set[frozenset | int | tuple] | MathSet], result: set[frozenset | int | tuple] | MathSet, not_allowed: list = None, identity: Identity = None) -> list[MathSet] | None
 ```
 
 Where `const_sets` is a dictionary for the predefined constants and `result` is the wanted solution.
@@ -64,3 +64,21 @@ See German examples [here](beispiele.md) with outputs.
 - https://stackoverflow.com/a/28845328
 - https://stackoverflow.com/a/5931299
 - https://stackoverflow.com/a/15768778
+
+
+- https://stackoverflow.com/a/403426
+- https://stackoverflow.com/a/11324771
+- https://stackoverflow.com/a/30676267 / https://stackoverflow.com/a/35781654
+- https://stackoverflow.com/a/25176504
+- https://stackoverflow.com/a/61841955
+- https://stackoverflow.com/q/17843785
+- https://stackoverflow.com/a/33533514
+- https://stackoverflow.com/a/4005412
+- https://stackoverflow.com/a/4932473
+- https://stackoverflow.com/a/2626364
+- https://stackoverflow.com/a/18138687
+- https://stackoverflow.com/a/27761524
+- https://stackoverflow.com/a/3787481
+- Enum: https://stackoverflow.com/a/1695250
+- Append values to set: https://stackoverflow.com/a/3392370
+- fastest way to sort a set: https://stackoverflow.com/a/13605607
