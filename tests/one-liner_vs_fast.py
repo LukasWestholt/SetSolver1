@@ -1,9 +1,10 @@
 from timeit import default_timer as timer
-
 # Is set irreflexive?
 
+
 def a():
-    return frozenset((x3, x3) for x3 in set([x1[x2] for x2 in range(2) for x1 in value]) if (x3, x3) in value) == frozenset()
+    return frozenset((x3, x3) for x3 in set([x1[x2] for x2 in range(2) for x1 in value]) if (x3, x3) in value) == \
+           frozenset()
 
 
 def b():

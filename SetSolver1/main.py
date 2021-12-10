@@ -1,226 +1,204 @@
-from itertools import combinations_with_replacement
-from SetSolver1.math_set import MathSet, Identity, STATUS
+#!/usr/bin/env python3
+# coding: utf-8
+
+from itertools import combinations_with_replacement, product, chain, compress
+from SetSolver1.SimpleMathSet import SimpleMathSet
+from SetSolver1.MODE import MODE, CHOOSE_BY_INDEX, RESULT, CONST_WAY
+import SetSolver1.MODE
 import SetSolver1.helper.update
+from SetSolver1.helper.BaseTypes import ConstDictType, ResultType
+from SetSolver1.MathSet import MathSet
+from SetSolver1.RelationMathSet import RelationMathSet
+from SetSolver1.ResultWay import ResultWay
 
 
-def tools(t, x, y):
+def tools(t, x, y, overflow):
     """
-    :type t: int
+    Switch tool by MODE t
+    For tool use variables x and y
+    :type t: MODE
     :type x: MathSet
-    :type y: MathSet
-    :rtype: MathSet
+    :type y: MathSet | None
+    :type overflow: int
+    :rtype: MathSet | None
+    :raises ValueError:
     """
-    way = (t, x, y)
-    match t:
+    match CHOOSE_BY_INDEX.index(t):
         case 0:
-            return x.union(y, way)
+            return x.union(y)
         case 1:
-            return x.complement(y, way)
+            return x.complement(y)
         case 2:
-            return y.complement(x, way)
+            return x.intersection(y)
         case 3:
-            return x.intersection(y, way)
+            return x.composition(y)
         case 4:
-            return x.composition(y, way)
-        case 5:
-            return y.composition(x, way)
-        case 6:
             if x.total_deep_len() >= (overflow / 2):
-                return MathSet(frozenset(), x.identity, way)
-            return x.power_set(way)
-        case 7:
-            if y.total_deep_len() >= (overflow / 2):
-                return MathSet(frozenset(), y.identity, way)
-            return y.power_set(way)
-        case 8:
-            return x.converse_relation(way)
-        case 9:
-            return y.converse_relation(way)
-        case 10:
-            return x.reflexive_closure(way)
-        case 11:
-            return y.reflexive_closure(way)
-        case 12:
-            return x.transitive_closure(way)
-        case 13:
-            return y.transitive_closure(way)
-        case _:
-            raise ValueError("value not found")
-
-
-def s_tools(t, x, y):
-    """
-    :type t: int
-    :type x: str
-    :type y: str
-    :rtype: str
-    """
-    print("way: " + str(t) + " " + str([x, y])) if DEBUG else None
-    match t:
-        case 0:
-            return "("+x+"+"+y+")"
-        case 1:
-            return "("+x+"-"+y+")"
-        case 2:
-            return "("+y+"-"+x+")"
-        case 3:
-            return "("+x+"&"+y+")"
-        case 4:
-            return "("+x+"."+y+")"
+                return None
+            return x.power_set()
         case 5:
-            return "("+y+"."+x+")"
+            return x.converse_relation()
         case 6:
-            return "pow("+x+")"
+            return x.reflexive_closure()
         case 7:
-            return "pow("+y+")"
+            return x.transitive_closure()
         case 8:
-            return "inverse("+x+")"
+            return x.multi_set_difference(y)
         case 9:
-            return "inverse("+y+")"
-        case 10:
-            return "reflexive_cl("+x+")"
-        case 11:
-            return "reflexive_cl("+y+")"
-        case 12:
-            return "transitive_cl("+x+")"
-        case 13:
-            return "transitive_cl("+y+")"
+            return x.disjoint_union(y)
         case _:
             raise ValueError("value not found")
 
 
-def format_way_helper(operand, item, const_sets, results):
+def format_way_helper(operand, reversed_const_dict, results):
     """
+    Create a string for way by operand
     :type operand: MathSet | None
-    :type item: MathSet
-    :type const_sets: dict[str, MathSet]
+    :type reversed_const_dict: dict[MathSet, str]
     :type results: set[MathSet]
     :rtype: str
+    :raises SyntaxError:
     """
     if operand is None:
         return ""
-    elif operand in const_sets.values():
-        return list(const_sets.keys())[list(const_sets.values()).index(operand)]
+    elif operand in reversed_const_dict:
+        return reversed_const_dict[operand]
     else:
-        for a in results:
-            # TODO is this fastest?
-            if operand == a:
-                return format_way(a, const_sets, results)
-    raise SyntaxError(item.way)
+        if operand in results:
+            for a in results:
+                if operand == a:
+                    return format_way(a.way, reversed_const_dict, results)
+    raise SyntaxError()
 
 
-def format_way(item, const_sets, results):
+def format_way(way, reversed_const_dict, results):
     """
-    :type item: MathSet
-    :type const_sets: dict[str, MathSet]
+    make way printable
+    :type way: (MODE, (MathSet | None), (MathSet | None))
+    :type reversed_const_dict: dict[MathSet, str]
     :type results: set[MathSet]
     :rtype: str
+    :raises SyntaxError:
     """
-    if item.way == STATUS.CONST:
-        return list(const_sets.keys())[list(const_sets.values()).index(item)]
-    operator, operand1, operand2 = item.way
-    return s_tools(operator, format_way_helper(operand1, item, const_sets, results),
-                   format_way_helper(operand2, item, const_sets, results))
+    operator, operand1, operand2 = way
+    try:
+        way_string = operator.format(format_way_helper(operand1, reversed_const_dict, results),
+                                     format_way_helper(operand2, reversed_const_dict, results))
+    except SyntaxError:
+        raise SyntaxError(way)
+    return way_string
 
 
-def check_set(check, const_sets, results):
+def found_result(reversed_const_dict, result, results, do_print):
     """
-    :type check: MathSet
-    :type const_sets: dict[str, MathSet]
-    :type results: set[MathSet]
-    """
-    if check.total_deep_len() <= overflow:
-        results.add(check)
-        print(format_way(check, const_sets, results) + " --> " + str(check)) if DEBUG else None
-
-
-def get_valid_results(const_sets, result, results, do_print):
-    """
-    :type const_sets: dict[str, MathSet]
+    search for 'result' in 'results'
+    if found return it else None
+    :type reversed_const_dict: dict[MathSet, str]
     :type result: MathSet
     :type results: set[MathSet]
     :type do_print: bool
-    :return: set[set]
+    :rtype: MathSet | None
     """
-    valid_results = list()
     for a in results:
-        # TODO is this fastest?
         if result.value == a.value:
-            valid_results.append(a)
-            print("Calculated result: " + format_way(a, const_sets, results) + " --> " + str(a)) if do_print else None
-    return valid_results
-
-
-def search(const_sets, result, not_allowed=None, identity=None, do_print=True):
-    """
-    :type const_sets: dict[str, set[frozenset | int | tuple] | MathSet]
-    :type result: set[frozenset | int | tuple] | MathSet
-    :type not_allowed: list
-    :type identity: Identity
-    :type do_print: bool
-    :rtype: list[MathSet] | None
-    """
-
-    if not_allowed is None:
-        not_allowed = [4, 5, 8, 9, 10, 11, 12, 13]
-
-    # UPDATE const_sets with frozen-sets to const_sets with MathSets
-    for y in const_sets.keys():
-        if type(const_sets[y]) == set:
-            const_sets[y] = MathSet(SetSolver1.helper.update.to_tiny_math_set(const_sets[y]), identity, STATUS.CONST)
-    # UPDATE result with frozen-sets to result with MathSets
-    result = MathSet(SetSolver1.helper.update.to_tiny_math_set(result), identity, STATUS.CONST)
-
-    if list(const_sets.values()) == set(list(const_sets.values())):
-        raise ValueError('the dictionary values of set constants must be unique')
-
-    results: set[MathSet] = set(const_sets.values())
-
-    len_results_old = None
-    for len_obj in range(range_int):
-        len_results = len(results)
-        print(str(round((len_obj/(range_int-1))*100)) + "% / " + str(len_results)) if do_print else None
-        if len_results == len_results_old:
-            break  # performance optimization
-        len_results_old = len_results
-        # TODO is sorted results.copy() better?
-        for x in results.copy():
-            for y in [x for x in range(14) if x not in not_allowed]:
-                for z in const_sets.values():
-                    new = tools(y, x, z)
-                    check_set(new, const_sets, results)
-        valid_results = get_valid_results(const_sets, result, results, do_print)
-        if len(valid_results) > 0:
-            return valid_results
-
-    len_results_old = None
-    for len_obj in range(range_int):
-        len_results = len(results)
-        print("all: " + str(round((len_obj/(range_int-1))*100)) + "% / " + str(len_results)) if do_print else None
-        if len_results == len_results_old:
-            break  # performance optimization
-        len_results_old = len_results
-        temp_results_list_for_power_set = results.copy()
-        # for x, y in combinations_with_replacement(results, 2):
-        for x, y in combinations_with_replacement(sorted(results, key=lambda i: i.sort_key()), 2):
-            for c in [x for x in range(14) if x not in not_allowed + [6, 7]]:
-                new = tools(c, x, y)
-                check_set(new, const_sets, results)
-        if 6 not in not_allowed:
-            # TODO is sorted temp_results_list_for_power_set better?
-            for x in temp_results_list_for_power_set:
-                new = MathSet(frozenset(), x.identity, (6, x, None)) if x.total_deep_len() >= (overflow / 2) \
-                    else x.power_set((6, x, None))
-                # TODO None could be here a MathSet with value = None
-                check_set(new, const_sets, results)
-        valid_results = get_valid_results(const_sets, result, results, do_print)
-        if len(valid_results) > 0:
-            return valid_results
-
-    print("Nothing found :(") if do_print else None
+            if do_print:
+                print("Calculated result: " + format_way(a.way, reversed_const_dict, results) + " --> " + str(a))
+            return a
     return None
 
 
-overflow = 30
-range_int = 20
-DEBUG = False
+def search(const_dict, result, not_allowed=None, identity=None, overflow=30, range_int=20, do_print=True):
+    """
+    Search for way to get from consts by 'const_dict' to result
+    :type const_dict: dict[str, set[frozenset | int | tuple] | MathSet] | ConstDictType
+    :type result: set[frozenset | int | tuple] | MathSet | ResultType
+    :type not_allowed: list[MODE]
+    :type identity: RelationMathSet | None
+    :type overflow: int
+    :type range_int: int
+    :type do_print: bool
+    :rtype: ResultWay | None
+    :raises ValueError:
+    """
+    if not_allowed is None:
+        not_allowed = SetSolver1.MODE.DEFAULT_NOT_ALLOWED
+
+    # UPDATE const_dict with frozen-sets to const_dict with MathSets
+    for y in const_dict.keys():
+        if type(const_dict[y]) == set:
+            if sum(1 for x in const_dict[y] if type(x) != tuple) == 0:
+                const_dict[y] = RelationMathSet(const_dict[y], identity, CONST_WAY)
+            else:
+                const_dict[y] = SimpleMathSet(SetSolver1.helper.update.to_tiny_math_set(const_dict[y]), CONST_WAY)
+            const_dict[y].correct_way()
+
+    const_dict: dict[str, MathSet] | ConstDictType
+    consts = list(const_dict.values())
+    if consts == set(consts):
+        raise ValueError('the dictionary values of set constants must be unique')
+    reversed_const_dict = dict((v, k) for k, v in const_dict.items())
+    sorted_results = sorted_consts = sorted(consts, key=lambda i: i.sort_key())
+
+    # UPDATE result with frozen-sets to result with MathSets
+    if type(result) == set:
+        result = SimpleMathSet(SetSolver1.helper.update.to_tiny_math_set(result), RESULT)
+    if isinstance(result, ResultType):
+        result = result.get()
+    result: MathSet
+
+    very_cool = [1 if x.is_multi_mode() else 0 for x in SetSolver1.MODE.SORTED_CHOOSE_BY_INDEX if x not in not_allowed]
+
+    results: set[MathSet] = set(consts)
+
+    for mode in (1, 2):
+        len_results_old = None
+        for len_obj in range(range_int):
+            len_results = len(results)
+            print(str(mode) + ": " + str(round((len_obj/(range_int-1))*100)) + "% / " + str(len_results))\
+                if do_print else None
+            if len_results == len_results_old:
+                break  # performance optimization
+            len_results_old = len_results
+            if mode == 1:
+                my_iter = product(
+                        sorted_results,
+                        chain(
+                            *(
+                                product(
+                                    sorted_consts if x.is_multi_mode() else [False],
+                                    [x]
+                                ) for x in SetSolver1.MODE.SORTED_CHOOSE_BY_INDEX if x not in not_allowed)
+                        )
+                )
+                iter_list = list()
+                for x, (y, c) in my_iter:
+                    iter_list.append((x, y, c))
+            else:
+                my_iter = compress(
+                    product(
+                        combinations_with_replacement(sorted_results, 2),
+                        [x for x in SetSolver1.MODE.SORTED_CHOOSE_BY_INDEX if x not in not_allowed]
+                    ), [
+                        1 if x or y == len(sorted_results)-z-1 else 0
+                        for z in range(len(sorted_results))
+                        for y in range(len(sorted_results)-z)
+                        for x in very_cool
+                    ]
+                )
+                iter_list = list()
+                for (x, y), c in my_iter:
+                    iter_list.append((x, y, c))
+
+            for x, y, c in iter_list:
+                new = tools(c, x, y, overflow)
+                results.add(new) if new is not None and new.total_deep_len() <= overflow else None
+                if c[2] == 0:
+                    new = tools(c, y, x, overflow)
+                    results.add(new) if new is not None and new.total_deep_len() <= overflow else None
+            valid_result = found_result(reversed_const_dict, result, results, do_print)
+            if valid_result is not None:
+                return ResultWay(valid_result, const_dict, reversed_const_dict, results)
+            sorted_results = sorted(results, key=lambda i: i.sort_key())
+
+    print("Nothing found :(") if do_print else None
+    return None
