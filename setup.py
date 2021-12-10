@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='SetSolver1',
-    version='1!2021.11.2',
+    version='1!2021.12.2',
     url='https://github.com/LukasWestholt/SetSolver1',
     author='lukaswestholt',
     author_email='support@lukaswestholt.de',
