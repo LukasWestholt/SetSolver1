@@ -5,27 +5,27 @@ Credits for the examples goes to: https://gitlab.imn.htwk-leipzig.de/autotool/al
 ## Inhalt
 
 ### Mengen
-- [Aufgabe 1.demo](#aufgabe-1.demo)
-- [Aufgabe 1.1](#aufgabe-1.1)
-- [Aufgabe 1.2](#aufgabe-1.2)
-- [Aufgabe 1.3](#aufgabe-1.3)
-- [Aufgabe 1.4](#aufgabe-1.4)
-- [Aufgabe 1.5](#aufgabe-1.5)
-- [Aufgabe 1.6](#aufgabe-1.6)
+- [Aufgabe 1.demo](#Aufgabe-1demo)
+- [Aufgabe 1.1](#aufgabe-11)
+- [Aufgabe 1.2](#aufgabe-12)
+- [Aufgabe 1.3](#aufgabe-13)
+- [Aufgabe 1.4](#aufgabe-14)
+- [Aufgabe 1.5](#aufgabe-15)
+- [Aufgabe 1.6](#aufgabe-16)
 
 
 ### Mengen mit Relationen
-- [Aufgabe 2.demo](#aufgabe-2.demo)
-- [Aufgabe 2.1](#aufgabe-2.1)
-- [Aufgabe 2.2](#aufgabe-2.2)
-- [Aufgabe 2.3](#aufgabe-2.3)
-- [Aufgabe 2.4](#aufgabe-2.4)
+- [Aufgabe 2.demo](#aufgabe-2demo)
+- [Aufgabe 2.1](#aufgabe-21)
+- [Aufgabe 2.2](#aufgabe-22)
+- [Aufgabe 2.3](#aufgabe-23)
+- [Aufgabe 2.4](#aufgabe-24)
 
 
 ### MultiMengen
-- [Aufgabe 3.demo](#aufgabe-3.demo)
-- [Aufgabe 3.1](#aufgabe-3.1)
-- [Aufgabe 3.2](#aufgabe-3.2)
+- [Aufgabe 3.demo](#aufgabe-3demo)
+- [Aufgabe 3.1](#aufgabe-31)
+- [Aufgabe 3.2](#aufgabe-32)
 
 
 ---
